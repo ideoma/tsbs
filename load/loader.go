@@ -228,6 +228,7 @@ func (l *CommonBenchmarkRunner) useDBCreator(dbc targets.DBCreator) func() {
 		
 		exists := false
 		if l.DoAbortOnExist || l.DoCreateDB {
+			// Check whether required DB already exists only if we need to know
 			exists = dbc.DBExists(l.DBName)
 		}
 
@@ -238,8 +239,6 @@ func (l *CommonBenchmarkRunner) useDBCreator(dbc targets.DBCreator) func() {
 		// Create required DB if need be
 		// In case DB already exists - delete it
 		if l.DoCreateDB {
-			// Check whether required DB already exists
-
 			if exists {
 				err := dbc.RemoveOldDB(l.DBName)
 				if err != nil {
